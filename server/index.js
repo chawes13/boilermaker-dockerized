@@ -102,6 +102,10 @@ if (require.main === module) {
     .then(syncDb)
     .then(createApp)
     .then(startListening)
+    .catch(err => {
+      console.error(err)
+      process.exit(2); // 2 is required to get nodemon to crash and restart Docker container (db dependency race condition)
+    })
 } else {
   createApp()
 }

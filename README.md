@@ -68,6 +68,47 @@ If you want to run the server and/or webpack separately, you can also `npm run s
 
 From there, just follow your bliss.
 
+## Using Docker for Development
+
+### Introduction
+What is [Docker](https://docs.docker.com/get-started/)? It's a container service that has become increasingly popular for developers based on its flexibility, portability, and scalability. Developing using containers means that your application, its dependencies, and the runtime are packaged together. Other developers don't have to have their local setup match yours to run your application the way it was intended to be run.
+
+Instead of using a Node version manager to switch to an earlier (or later) version of Node for a particular application, you can instead spin up a container! The same goes for databases and other auxiliary services that exist as pre-built images on DockerHub. Need your application to support Postgres:9.3? You can quickly spin up a container with your application image and another contianer with the correct Postgres version _without_ having to risk changing your existing local Postgres installation.
+
+### Setup
+If this is something that you're interested in exploring, then follow these steps:
+1. Install [Docker Community Edition](https://docs.docker.com/install/)
+2. Add a `secrets.js` file in the project root
+3. Update the environment variables in `docker-compose.yml`
+4. Run the following commands:
+```
+docker build -t dockermaker .
+docker swarm init
+docker stack deploy -c docker-compose.yml dockermaker
+```
+Following this, you can access your environment at [http://localhost:3000](http://localhost:3000) (or on whatever port you specified in `docker-compose.yml`). Note: This might take a few seconds as the application server for boilermaker depends on the database being available (race condition). If you're still not able to access the application after a few seconds, run `docker service ls` and `docker service logs -f SERVICEID` to investigate what the root cause might be.
+
+The application container is started with `npm run start-dev`, which uses both webpack and nodemon. Any changes made in the public, client, and server directories will be immediately picked up and available upon refresh of the application. If you add a dependency via node_modules or any dependent file in the root of the project, then the image will need to be updated and rebuilt before re-running the stack deploy command mentioned above.
+
+If you want to seed your database, then grab the first few digits of the container id for the container using the `dockermaker:latest` image by running `docker ps` and executing the following command:
+```
+docker exec CONTAINERID npm run seed
+```
+To test that this worked, you can connect to the database instance running on your container using psql or Postico (see example below). Any updates to the ports or environment variables defined in the `docker-compose.yml` will need to be accounted for accordingly.
+
+```
+psql -h localhost -p 5433 -U postgres -d dockermaker
+```
+
+To shutdown your application and database containers, run the following commands:
+```
+docker stack rm dockermaker
+docker swarm leave --force
+```
+The concept of containers presents an exciting world where eventually we could containerize our application intro microservices representing the client and the server. Changes or scaling on the frontend would not impact the API services running in the backend and we would not have to bring down the whole application in production to redeploy client-side updates.
+
+For more information about all things Docker, explore the documentation [here](https://docs.docker.com/get-started/). Hopefully you can _contain_ your excitement!
+
 ## Deployment
 
 Ready to go world wide? Here's a guide to deployment! There are two (compatible) ways to deploy:
