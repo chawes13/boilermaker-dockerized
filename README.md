@@ -73,7 +73,7 @@ From there, just follow your bliss.
 ### Introduction
 What is [Docker](https://docs.docker.com/get-started/)? It's a container service that has become increasingly popular for developers based on its flexibility, portability, and scalability. Developing using containers means that your application, its dependencies, and the runtime are packaged together. Other developers don't have to have their local setup match yours to run your application the way it was intended to be run.
 
-Instead of using a Node version manager to switch to an earlier (or later) version of Node for a particular application, you can instead spin up a container! The same goes for databases and other auxiliary services that exist as pre-built images on DockerHub. Need your application to support Postgres:9.3? You can quickly spin up a container with your application image and another contianer with the correct Postgres version _without_ having to risk changing your existing local Postgres installation.
+Instead of using a Node version manager to switch to an earlier (or later) version of Node for a particular application, you can instead spin up a container! The same goes for databases and other auxiliary services that exist as pre-built images on DockerHub. Need your application to support Postgres:9.3? You can quickly spin up a container with your application image and another container with the correct Postgres version _without_ having to risk changing your existing local Postgres installation.
 
 ### Setup
 If this is something that you're interested in exploring, then follow these steps:
