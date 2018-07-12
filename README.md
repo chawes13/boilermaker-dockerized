@@ -105,7 +105,7 @@ To shutdown your application and database containers, run the following commands
 docker stack rm dockermaker
 docker swarm leave --force
 ```
-The concept of containers presents an exciting world where eventually we could containerize our application intro microservices representing the client and the server. Changes or scaling on the frontend would not impact the API services running in the backend and we would not have to bring down the whole application in production to redeploy client-side updates.
+The concept of containers presents an exciting world where eventually we could containerize our application into microservices representing the client and the server. Changes or scaling on the frontend would not impact the API services running in the backend and we would not have to bring down the whole application in production to redeploy client-side updates.
 
 For more information about all things Docker, explore the documentation [here](https://docs.docker.com/get-started/). Hopefully you can _contain_ your excitement!
 
